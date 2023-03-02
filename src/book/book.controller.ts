@@ -7,10 +7,12 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  ValidationPipe,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { bookDto } from './Dto/book.dto';
 import { BookPipe } from './pipes/book.pipes';
+import { ValidPipe } from './pipes/validation.pipes';
 
 @Controller('book')
 export class bookController {
@@ -52,6 +54,17 @@ export class bookController {
   // Custom Pipes
   @Post('/pipetest')
   pipeTest(@Body(new BookPipe()) book: bookDto): string {
+    return 'Expected Value sent';
+  }
+
+  @Post('/validation')
+  validation(@Body(new ValidPipe()) book: bookDto): string {
+    return 'Expected Value sent';
+  }
+
+  // default nestjs validation but those packages should be installed
+  @Post('/nestValid')
+  nestValid(@Body(new ValidationPipe()) book: bookDto): string {
     return 'Expected Value sent';
   }
 }
