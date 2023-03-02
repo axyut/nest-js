@@ -1,5 +1,16 @@
-import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { BookService } from './book.service';
+import { bookDto } from './Dto/book.dto';
+import { BookPipe } from './pipes/book.pipes';
 
 @Controller('book')
 export class bookController {
@@ -31,8 +42,16 @@ export class bookController {
 
   //find a book
   @Get('/:id')
-  book(@Param() params): string {
-    console.log(params.id);
-    return `sent param was ${params.id}`;
+  book(@Param('id', ParseIntPipe) id: number): string {
+    console.log(id, typeof id);
+    return `sent param was ${id}, type was ${typeof id}`;
+    // even though is is expected to be number, string is returned
+    // this issue is solved by pipes  (ParseIntPipes)
+  }
+
+  // Custom Pipes
+  @Post('/pipetest')
+  pipeTest(@Body(new BookPipe()) book: bookDto): string {
+    return 'Expected Value sent';
   }
 }

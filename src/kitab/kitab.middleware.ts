@@ -13,7 +13,7 @@ export class KitabMiddleware implements NestMiddleware {
     let date = new Date().toDateString();
 
     console.log(
-      `Server Hit! \n Protocol: ${protocol} \n Route: ${host}${url} \n Method: ${method} \n Date: ${date}`,
+      `Kitab Resource Hit! \n Protocol: ${protocol} \n Route: ${host}${url} \n Method: ${method} \n Date: ${date}`,
     );
     next();
     // needs to be registered in th eparticular module
