@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { BookService } from './book.service';
@@ -15,6 +16,7 @@ import { bookDto } from './Dto/book.dto';
 import { BookPipe } from './pipes/book.pipes';
 import { ValidPipe } from './pipes/validation.pipes';
 import { BookException } from './book.exception';
+import { bookGuard } from './book.guard';
 
 @Controller('book')
 export class bookController {
@@ -82,5 +84,13 @@ export class bookController {
 
     // custom class exception
     throw new BookException();
+  }
+
+  // using a guard
+  @Get('/security')
+  @UseGuards(new bookGuard()) // can also be used at controller level for all endpoints
+  // can also be used globally in main.ts => app.useGlobalGuards(new bookGuard())
+  secureGuard(): string {
+    return 'Guard let you in.';
   }
 }
