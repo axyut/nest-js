@@ -8,7 +8,10 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Req,
+  Res,
   UseGuards,
+  UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
 import { BookService } from './book.service';
@@ -17,6 +20,8 @@ import { BookPipe } from './pipes/book.pipes';
 import { ValidPipe } from './pipes/validation.pipes';
 import { BookException } from './book.exception';
 import { bookGuard } from './book.guard';
+import { bookIntercepter } from './book.interceptor';
+import { Request, Response } from 'express';
 
 @Controller('book')
 export class bookController {
@@ -92,5 +97,15 @@ export class bookController {
   // can also be used globally in main.ts => app.useGlobalGuards(new bookGuard())
   secureGuard(): string {
     return 'Guard let you in.';
+  }
+
+  // interceptors
+  @Post('/intercept')
+  @UseInterceptors(bookIntercepter)
+  // interRoute(@Req() req: Request, @Res() res: Response): any {
+  //   return res.json(req.body);
+  // }
+  interRoute(): any {
+    return 'non intercepted response ';
   }
 }

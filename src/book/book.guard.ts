@@ -13,7 +13,7 @@ import * as request from 'supertest';
 
 @Injectable()
 export class bookGuard implements CanActivate {
-  public key: string = 'this is my key';
+  public key: string = 'my JWT token';
 
   canActivate(context: ExecutionContext): boolean {
     //console.log(context); // contains request contexts from user
