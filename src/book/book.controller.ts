@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -13,6 +14,7 @@ import { BookService } from './book.service';
 import { bookDto } from './Dto/book.dto';
 import { BookPipe } from './pipes/book.pipes';
 import { ValidPipe } from './pipes/validation.pipes';
+import { BookException } from './book.exception';
 
 @Controller('book')
 export class bookController {
@@ -43,7 +45,7 @@ export class bookController {
   }
 
   //find a book
-  @Get('/:id')
+  @Get('/id/:id')
   book(@Param('id', ParseIntPipe) id: number): string {
     console.log(id, typeof id);
     return `sent param was ${id}, type was ${typeof id}`;
@@ -54,7 +56,7 @@ export class bookController {
   // Custom Pipes
   @Post('/pipetest')
   pipeTest(@Body(new BookPipe()) book: bookDto): string {
-    return 'Expected Value sent';
+    return 'Expected Value sent that is number 1 as id';
   }
 
   @Post('/validation')
@@ -66,5 +68,19 @@ export class bookController {
   @Post('/nestValid')
   nestValid(@Body(new ValidationPipe()) book: bookDto): string {
     return 'Expected Value sent';
+  }
+
+  // Built in Exception
+  @Get('/new')
+  newRoute() {
+    // default error
+    // throw new BadRequestException();
+    // throw new BadRequestException({
+    //   status: 401,
+    //   error: 'Custom error message',
+    // });
+
+    // custom class exception
+    throw new BookException();
   }
 }
